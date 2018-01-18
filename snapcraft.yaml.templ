@@ -4,8 +4,6 @@ grade: stable
 confinement: devmode
 summary: Open Source LXC orchestration tool
 description: "For more details please visit our site: https://subut.ai"
-environment:
-        PYTHONPATH: $PYTHONPATH:$SNAP/lib/python2.7/site-packages
 
 apps:
         (SUBUTAI):
@@ -13,10 +11,11 @@ apps:
                 aliases: [subutai]
         p2p:
                 command: bin/p2p
-        certbot: 
-                command: bin/certbot
         roaming-service:
                 command: bin/roaming
+                daemon: simple
+        restore-forwarding-service:
+                command: bin/restore-forwarding
                 daemon: simple
         dhcp-service:
                 command: bin/dhcpd.sh
@@ -43,6 +42,7 @@ apps:
         nginx-service:
                 command: bin/nginx.sh start
                 daemon: simple
+                restart-condition: always
         net-post-conf:
                 command: bin/net-post-conf
                 daemon: oneshot 
@@ -133,7 +133,7 @@ parts:
                 plugin: autotools
                 configflags: ["--datadir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share", "--with-config-path=/var/snap/$SNAPCRAFT_PROJECT_NAME/common/lxc", "--disable-werror"]
                 source: https://github.com/lxc/lxc.git
-                source-tag: lxc-2.0.8
+                source-tag: lxc-2.0.9
                 build-packages:
                         - pkg-config
                         - libcap-dev
@@ -199,10 +199,3 @@ parts:
                         - -html
                         - -var
                         - -snap
-        certbot:
-                plugin: python
-                python-version: python2
-                python-packages:
-                        - certbot==0.19.0
-
-# vim: ts=8 et nowrap autoindent
