@@ -1,7 +1,7 @@
 name: (SUBUTAI)
 version: "(SNAP_VERSION)-(SNAP_BRANCH)"
 grade: stable
-confinement: devmode
+confinement: strict
 summary: Open Source LXC orchestration tool
 description: "For more details please visit our site: https://subut.ai"
 
@@ -42,6 +42,7 @@ apps:
         nginx-service:
                 command: bin/nginx.sh start
                 daemon: simple
+                plugs: [core-support,network-control,network-setup-control]
                 restart-condition: always
         net-post-conf:
                 command: bin/net-post-conf
@@ -53,6 +54,7 @@ apps:
         agent-shutdown:
                 command: bin/agent-shutdown
                 daemon: oneshot
+                plugs: [core-support]
                 restart-condition: never
 parts:
         wrappers:
@@ -160,6 +162,8 @@ parts:
                 make-parameters: [--always-make, snapcraft]
                 source: https://github.com/subutai-io/p2p.git 
                 source-branch: (P2P_BRANCH)
+                build-packages:
+                        - golang-1.9
                 organize:
                         opt/subutai/bin/p2p: bin/p2p
                 prime:
@@ -178,6 +182,7 @@ parts:
                 make-parameters: [snapcraft]
                 build-packages:
                         - lxc-dev
+                        - golang-1.9
                 organize:
                         bin/agent: bin/subutai
         uidmapshift:

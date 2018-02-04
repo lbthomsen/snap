@@ -9,9 +9,9 @@ fi
 
 UNIT="var-snap-${SNAP_NAME}-agent-shutdown.service"
 DIR="/writable/system-data/etc/systemd/system"
-if [ ! -d $DIR ]; then
-	DIR="/etc/systemd/system"
-fi
+#if [ ! -d $DIR ]; then
+#	DIR="/etc/systemd/system"
+#fi
 
 
 echo "[Unit]
