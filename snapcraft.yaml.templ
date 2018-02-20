@@ -47,9 +47,11 @@ apps:
         net-post-conf:
                 command: bin/net-post-conf
                 daemon: oneshot 
+                plugs: [network-control,network-setup-control]
                 restart-condition: never
         cgmanager-service:
                 command: bin/cgmanagerd.sh
+                plugs: [core-support,network-control,network-setup-control]
                 daemon: simple
         agent-shutdown:
                 command: bin/agent-shutdown
